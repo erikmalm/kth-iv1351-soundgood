@@ -24,45 +24,6 @@ public class Controller {
 
 
     /**
-     * Withdraws the specified amount from the account with the specified account
-     * number.
-     *
-     * @param acctNo The number of the account from which to withdraw.
-     * @param amt    The amount to withdraw.
-     * @throws RejectedException If not allowed to withdraw the specified amount.
-     * @throws AccountException  If failed to withdraw.
-
-    public void withdraw(String acctNo, int amt) throws RejectedException, AccountException {
-    String failureMsg = "Could not withdraw from account: " + acctNo;
-
-    if (acctNo == null) {
-    throw new AccountException(failureMsg);
-    }
-
-    try {
-    Account acct = bankDb.findAccountByAcctNo(acctNo, true);
-    acct.withdraw(amt);
-    bankDb.updateAccount(acct);
-    } catch (BankDBException bdbe) {
-    throw new AccountException(failureMsg, bdbe);
-    } catch (Exception e) {
-    commitOngoingTransaction(failureMsg);
-    throw e;
-    }
-    }
-
-
-    private void commitOngoingTransaction(String failureMsg) throws AccountException {
-    try {
-    bankDb.commit();
-    } catch (BankDBException bdbe) {
-    throw new AccountException(failureMsg, bdbe);
-    }
-    }
-     */
-
-
-    /**
      * Lists all the rental instruments available at Soundgood Music School
      *
      * @return A list containing all the rental instruments at the school.
@@ -175,8 +136,11 @@ public class Controller {
             rentalInformation = soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, true);
             updated = soundgoodDB.terminateRental(rentalInformation.getId());
             updated += soundgoodDB.createRentalInstrumentRow(rentalInformation);
+        } catch (SoundgoodDBEException sdbe) {
+            throw new RentalInstrumentException(failMsg, sdbe);
         } catch (Exception e) {
-            throw new RentalInstrumentException("Could not terminate rental for instrument", e);
+            commitOngoingRental(failMsg);
+            throw e;
         }
 
     }
@@ -188,7 +152,6 @@ public class Controller {
      * @param studentId The student ID (s_id) of the student who is renting the instrument
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
 
     public void rentInstrumentToStudent(String rentalInstrumentId, String studentId) throws RentalInstrumentException {
 
@@ -220,8 +183,20 @@ public class Controller {
         try {
             RentalInstrumentDTO rentalInformation = soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, true);
             soundgoodDB.updateRentalInformation(rentalInformation.getId(), studentId);
+        } catch (SoundgoodDBEException sdbe) {
+            throw new RentalInstrumentException(failMsg, sdbe);
         } catch (Exception e) {
-            throw new RentalInstrumentException("Could not find rental instrument", e);
+            commitOngoingRental(failMsg);
+            throw e;
+        }
+    }
+
+
+    private void commitOngoingRental(String failMsg) throws RentalInstrumentException {
+        try {
+            soundgoodDB.commit();
+        } catch (SoundgoodDBEException bdbe) {
+            throw new RentalInstrumentException(failMsg, bdbe);
         }
 
     }

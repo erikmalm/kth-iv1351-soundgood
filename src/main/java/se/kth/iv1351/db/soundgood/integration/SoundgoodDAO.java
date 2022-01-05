@@ -419,12 +419,7 @@ public class SoundgoodDAO {
         return updatedRows;
     }
 
-    private Timestamp getReturnDate() {
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date(System.currentTimeMillis()));
-        c.add(Calendar.MONTH, 1);
-        return new Timestamp(c.getTimeInMillis());
-    }
+
 
     public int terminateRental(String rentalInstrumentId) throws SoundgoodDBEException {
 
@@ -448,35 +443,16 @@ public class SoundgoodDAO {
         return updatedRows;
     }
 
-    private Timestamp getCurrentDate() {
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date(System.currentTimeMillis()));
-        return new Timestamp(c.getTimeInMillis());
-    }
 
-    public int countRentedInstruments(String studentId) throws SoundgoodDBEException {
-        String failureMessage = "Could not retrieve information about rental instruments on student with Id"
-                + studentId;
 
-        ResultSet result = null;
-
-        try {
-            countRentedInstruments.setInt(1, Integer.parseInt(studentId));
-            result = countRentedInstruments.executeQuery();
-
-            if (result.next()) {
-                return result.getInt("numberOfInstruments");
-            }
-            connection.commit();
-
-        } catch (SQLException sqle) {
-
-            handleException(failureMessage, sqle);
-        } finally {
-            closeResultSet(failureMessage, result);
-        }
-        return 0;
-    }
+    /**
+     * Retrieves all instruments which are rented by a specific student
+     *
+     * @param studentId The student id to check for rented instruments
+     * @return A list with all the rented instruments by student.
+     * Returns 0 if no instruments are rented.
+     * @throws SoundgoodDBEException If unable to connect to database
+     */
 
     public List<? extends RentalInstrumentDTO> findRentedInstrumentsByStudent(String studentId) throws SoundgoodDBEException {
 
@@ -517,6 +493,15 @@ public class SoundgoodDAO {
         return instruments;
     }
 
+    /**
+     * Creates a new row in the database with a rental instrument
+     *
+     * @param rentalInformation The DTO with the information about
+     *                          the current rental instrument
+     * @return The number of updated rows (should be 1 if successful)
+     * @throws SoundgoodDBEException If unable to create the row in the database
+     */
+
     public int createRentalInstrumentRow(RentalInstrumentDTO rentalInformation) throws SoundgoodDBEException {
 
         String failureMessage = "Could not return rental instrument with ID " + rentalInformation.getInstrument_id();
@@ -540,5 +525,31 @@ public class SoundgoodDAO {
 
         return updatedRows;
 
+    }
+
+    /**
+     * Commits the current database action.
+     *
+     * @throws SoundgoodDBEException If unable to commit the current transaction.
+     */
+    public void commit() throws SoundgoodDBEException {
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            handleException("Failed to commit", e);
+        }
+    }
+
+    private Timestamp getCurrentDate() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(System.currentTimeMillis()));
+        return new Timestamp(c.getTimeInMillis());
+    }
+
+    private Timestamp getReturnDate() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(System.currentTimeMillis()));
+        c.add(Calendar.MONTH, 1);
+        return new Timestamp(c.getTimeInMillis());
     }
 }

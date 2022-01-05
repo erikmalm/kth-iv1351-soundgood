@@ -1,12 +1,11 @@
 package se.kth.iv1351.db.soundgood.startup;
 
-
 import se.kth.iv1351.db.soundgood.controller.Controller;
 import se.kth.iv1351.db.soundgood.integration.SoundgoodDBEException;
 import se.kth.iv1351.db.soundgood.view.BlockingInterpreter;
 
 /**
- * Starts the bank client.
+ * Starts the Soundgood Music School rental client.
  */
 public class Main {
     /**
@@ -16,7 +15,7 @@ public class Main {
         try {
             new BlockingInterpreter(new Controller()).handleCmds();
         } catch (SoundgoodDBEException bdbe) {
-            System.out.println("Could not connect to Bank db.");
+            System.out.println("Could not connect to Soundgood database.");
             bdbe.printStackTrace();
         }
     }
