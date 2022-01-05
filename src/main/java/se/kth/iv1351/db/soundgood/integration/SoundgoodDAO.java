@@ -462,7 +462,7 @@ public class SoundgoodDAO {
 
             updatedRows = terminateRental.executeUpdate();
 
-            connection.commit();
+            // connection.commit();
         }
         catch (SQLException sqle) {
             handleException(failureMessage, sqle);
@@ -569,7 +569,7 @@ public class SoundgoodDAO {
             connection.rollback();
         } catch (SQLException rollbackExc) {
             completeFailureMsg = completeFailureMsg +
-                    ". Also failed to rollback transaction because of: " + rollbackExc.getMessage();
+                    ". Also failed to rollback query because of: " + rollbackExc.getMessage();
         }
 
         if (cause != null) {
@@ -588,7 +588,8 @@ public class SoundgoodDAO {
     }
 
     private void connectToSoundgoodDB() throws ClassNotFoundException, SQLException {
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgood","postgres", "VgS4HN");
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgood",
+                "postgres", "VgS4HN");
         connection.setAutoCommit(false);
     }
 
