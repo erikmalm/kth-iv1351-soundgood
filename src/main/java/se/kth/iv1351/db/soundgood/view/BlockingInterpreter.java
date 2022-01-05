@@ -182,10 +182,10 @@ public class BlockingInterpreter {
 
         String status;
 
-        if (instrumentToFind.isAvailable()) status = "[AVAILABLE]";
-        else status = "[NOT AVAILABLE]";
+        if (instrumentToFind.isAvailable()) status = "[AVAILABLE] ";
+        else status = "";
 
-        System.out.println(status + "\t" + instrumentToFind);
+        System.out.println(status + instrumentToFind);
 
     }
 

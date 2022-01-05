@@ -129,16 +129,14 @@ public class Controller {
         if (rentalInstrumentId == null) throw new RentalInstrumentException(failMsg);
 
         if (getRentalInstrument(rentalInstrumentId).getStudent_id() == null)
-            throw new RentalInstrumentException("Rental instrument is already available");
-
-        int updated = 0;
+            throw new RentalInstrumentException("Can't end rental of chosen instrument");
 
         RentalInstrumentDTO rentalInformation;
 
         try {
             rentalInformation = soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, true);
-            updated = soundgoodDB.terminateRental(rentalInformation.getId());
-            updated += soundgoodDB.createRentalInstrumentRow(rentalInformation);
+            soundgoodDB.terminateRental(rentalInformation.getId());
+            soundgoodDB.createRentalInstrumentRow(rentalInformation);
         } catch (SoundgoodDBEException sdbe) {
             throw new RentalInstrumentException(failMsg, sdbe);
         } catch (Exception e) {

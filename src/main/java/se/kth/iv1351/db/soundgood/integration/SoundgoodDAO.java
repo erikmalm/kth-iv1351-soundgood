@@ -426,7 +426,7 @@ public class SoundgoodDAO {
      *
      * @param rentalInstrumentId The id for the rental instrument to update
      * @param studentId The student who rents the instrument
-     * @throws SoundgoodDBEException
+     * @throws SoundgoodDBEException If unable to connect to database
      */
 
     public void updateRentalInformation(String rentalInstrumentId, String studentId) throws SoundgoodDBEException {
@@ -455,14 +455,11 @@ public class SoundgoodDAO {
 
     /**
      * Terminates a rental of a specific ID
-     * @param rentalInstrumentId
-     * @return
-     * @throws SoundgoodDBEException
+     * @param rentalInstrumentId The id of the rental instrument to terminate rental
+     * @throws SoundgoodDBEException If unable to connect to database
      */
 
-
-
-    public int terminateRental(String rentalInstrumentId) throws SoundgoodDBEException {
+    public void terminateRental(String rentalInstrumentId) throws SoundgoodDBEException {
 
         String failureMessage = "Could not terminate rental for instrument with id " + rentalInstrumentId;
 
@@ -481,10 +478,7 @@ public class SoundgoodDAO {
             handleException(failureMessage, sqle);
         }
 
-        return updatedRows;
     }
-
-
 
     /**
      * Retrieves all instruments which are rented by a specific student
