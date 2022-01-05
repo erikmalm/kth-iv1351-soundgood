@@ -128,6 +128,9 @@ public class Controller {
 
         if (rentalInstrumentId == null) throw new RentalInstrumentException(failMsg);
 
+        if (getRentalInstrument(rentalInstrumentId).getStudent_id() == null)
+            throw new RentalInstrumentException("Rental instrument is already available");
+
         int updated = 0;
 
         RentalInstrumentDTO rentalInformation;
@@ -166,6 +169,9 @@ public class Controller {
 
         // Check Conditions
         List<? extends RentalInstrumentDTO> rentedInstruments = new ArrayList<>();
+
+        if (studentId == null)
+            throw new RentalInstrumentException("No student to rent the instrument");
 
         if (!instrumentToFind.isAvailable())
             throw new RentalInstrumentException("Instrument is unavailable");

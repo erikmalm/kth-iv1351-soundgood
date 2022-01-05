@@ -373,7 +373,6 @@ public class SoundgoodDAO {
      * @throws SoundgoodDBEException
      */
 
-
     public RentalInstrumentDTO findSpecificRentalInstrumentById(String rentalInstrumentId, boolean lockExclusive)
             throws SoundgoodDBEException {
 
@@ -384,7 +383,6 @@ public class SoundgoodDAO {
         } else {
             statementToExecute = findSpecificRentalInstrumentById;
         }
-
 
         String failureMessage = "Could not search for specified rental instrument, with id " + rentalInstrumentId;
         ResultSet result = null;
@@ -423,7 +421,15 @@ public class SoundgoodDAO {
 
     }
 
-    public int updateRentalInformation(String rentalInstrumentId, String studentId) throws SoundgoodDBEException {
+    /**
+     * Updates rental information in the database upon the renting of an instrument
+     *
+     * @param rentalInstrumentId The id for the rental instrument to update
+     * @param studentId The student who rents the instrument
+     * @throws SoundgoodDBEException
+     */
+
+    public void updateRentalInformation(String rentalInstrumentId, String studentId) throws SoundgoodDBEException {
 
         String failureMessage = "Could not update information on instrument with id " + rentalInstrumentId;
 
@@ -445,8 +451,14 @@ public class SoundgoodDAO {
             handleException(failureMessage, sqle);
         }
 
-        return updatedRows;
     }
+
+    /**
+     * Terminates a rental of a specific ID
+     * @param rentalInstrumentId
+     * @return
+     * @throws SoundgoodDBEException
+     */
 
 
 
