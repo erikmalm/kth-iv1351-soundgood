@@ -35,8 +35,8 @@ public class BlockingInterpreter {
 
     /**
      * Interprets and performs user commands. This method will not return until the
-     * UI has been stopped. The UI is stopped either when the user gives the
-     * "quit" command, or when the method <code>stop()</code> is called.
+     * UI has been stopped. The UI is stopped when the user gives the
+     * "quit" command.
      */
     public void handleCmds() {
 

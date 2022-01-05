@@ -17,7 +17,6 @@ public class Controller {
      *
      * @throws SoundgoodDBEException If unable to connect to the database.
      */
-
     public Controller() throws SoundgoodDBEException {
         soundgoodDB = new SoundgoodDAO();
     }
@@ -29,8 +28,6 @@ public class Controller {
      * @return A list containing all the rental instruments at the school.
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
-
     public List<? extends RentalInstrumentDTO> getAllRentalInstruments() throws RentalInstrumentException {
         try {
             return soundgoodDB.findAllRentalInstruments();
@@ -46,7 +43,6 @@ public class Controller {
      * at Soundgood Music School
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
     public List<? extends RentalInstrumentDTO> getAllAvailableRentalInstruments() throws RentalInstrumentException {
         try {
             return soundgoodDB.findAllAvailableRentalInstruments();
@@ -63,7 +59,6 @@ public class Controller {
      * @return A list containing all the rental instruments with that name
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
     public List<? extends RentalInstrumentDTO> getAllRentalInstrumentsByName(String instrumentName) throws RentalInstrumentException {
         try {
             return soundgoodDB.findAllRentalInstrumentsByName(instrumentName);
@@ -82,7 +77,6 @@ public class Controller {
      *
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
     public List<? extends RentalInstrumentDTO> getAllAvailableRentalInstrumentsByName(String instrumentName) throws RentalInstrumentException {
         try {
             return soundgoodDB.findAllAvailableRentalInstrumentsByName(instrumentName);
@@ -100,7 +94,6 @@ public class Controller {
      * @return RentalInstrumentDTO with the information for that instrument
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
     public RentalInstrumentDTO getRentalInstrument(String rentalInstrumentId) throws RentalInstrumentException {
         if (rentalInstrumentId == null) {
             return null;
@@ -121,7 +114,6 @@ public class Controller {
      * @param rentalInstrumentId The rental instrument ID for the rental that should be terminated
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
     public void terminateRental(String rentalInstrumentId) throws RentalInstrumentException {
 
         String failMsg = "Could not terminate rental for instrument with id " + rentalInstrumentId;
@@ -153,7 +145,6 @@ public class Controller {
      * @param studentId The student ID (s_id) of the student who is renting the instrument
      * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
-
     public void rentInstrumentToStudent(String rentalInstrumentId, String studentId) throws RentalInstrumentException {
 
         String failMsg = "Could not start rental for rental instrument " + rentalInstrumentId;

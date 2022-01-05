@@ -44,7 +44,6 @@ public class SoundgoodDAO {
      * Constructs a new DAO object connected to the Soundgood Music School database
      * @throws SoundgoodDBEException
      */
-
     public SoundgoodDAO() throws SoundgoodDBEException {
         try {
             connectToSoundgoodDB();
@@ -60,7 +59,6 @@ public class SoundgoodDAO {
      *
      * @throws SQLException
      */
-
     private void prepareStatements() throws SQLException {
 
         findAllInstruments = connection.prepareStatement(
@@ -186,7 +184,6 @@ public class SoundgoodDAO {
      * @return A list of all rental instruments in the database
      * @throws SoundgoodDBEException
      */
-
     public List<RentalInstrument> findAllRentalInstruments() throws SoundgoodDBEException {
 
         String failureMessage = "Falied to get all rental instruments";
@@ -229,9 +226,7 @@ public class SoundgoodDAO {
      * @return A list of all the rental instruments of a specific type
      * @throws SoundgoodDBEException
      */
-
     public List<RentalInstrument> findAllRentalInstrumentsByName(String instrumentName) throws SoundgoodDBEException {
-
 
         String failureMessage = "Falied to get all rental instruments by specific name";
         List<RentalInstrument> instruments = new ArrayList<>();
@@ -274,7 +269,6 @@ public class SoundgoodDAO {
      * @return A list of all available rental instruments in the database
      * @throws SoundgoodDBEException
      */
-
     public List<? extends RentalInstrumentDTO> findAllAvailableRentalInstruments() throws SoundgoodDBEException {
 
         String failureMessage = "Falied to get all rental instruments";
@@ -322,7 +316,6 @@ public class SoundgoodDAO {
      * @return A list of all available instruments of specified type
      * @throws SoundgoodDBEException
      */
-
     public List<? extends RentalInstrumentDTO> findAllAvailableRentalInstrumentsByName(String instrumentName) throws SoundgoodDBEException {
 
         String failureMessage = "Falied to get all rental instruments by specific name";
@@ -372,7 +365,6 @@ public class SoundgoodDAO {
      * @return Rental Instrument DTO based on its specific rental instrument ID
      * @throws SoundgoodDBEException
      */
-
     public RentalInstrumentDTO findSpecificRentalInstrumentById(String rentalInstrumentId, boolean lockExclusive)
             throws SoundgoodDBEException {
 
@@ -428,7 +420,6 @@ public class SoundgoodDAO {
      * @param studentId The student who rents the instrument
      * @throws SoundgoodDBEException If unable to connect to database
      */
-
     public void updateRentalInformation(String rentalInstrumentId, String studentId) throws SoundgoodDBEException {
 
         String failureMessage = "Could not update information on instrument with id " + rentalInstrumentId;
@@ -458,7 +449,6 @@ public class SoundgoodDAO {
      * @param rentalInstrumentId The id of the rental instrument to terminate rental
      * @throws SoundgoodDBEException If unable to connect to database
      */
-
     public void terminateRental(String rentalInstrumentId) throws SoundgoodDBEException {
 
         String failureMessage = "Could not terminate rental for instrument with id " + rentalInstrumentId;
@@ -488,7 +478,6 @@ public class SoundgoodDAO {
      * Returns 0 if no instruments are rented.
      * @throws SoundgoodDBEException If unable to connect to database
      */
-
     public List<? extends RentalInstrumentDTO> findRentedInstrumentsByStudent(String studentId) throws SoundgoodDBEException {
 
         List <RentalInstrument> instruments = new ArrayList<>();
@@ -536,7 +525,6 @@ public class SoundgoodDAO {
      * @return The number of updated rows (should be 1 if successful)
      * @throws SoundgoodDBEException If unable to create the row in the database
      */
-
     public int createRentalInstrumentRow(RentalInstrumentDTO rentalInformation) throws SoundgoodDBEException {
 
         String failureMessage = "Could not return rental instrument with ID " + rentalInformation.getInstrument_id();
