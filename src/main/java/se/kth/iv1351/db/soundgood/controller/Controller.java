@@ -2,13 +2,11 @@ package se.kth.iv1351.db.soundgood.controller;
 
 import se.kth.iv1351.db.soundgood.integration.SoundgoodDAO;
 import se.kth.iv1351.db.soundgood.integration.SoundgoodDBEException;
-import se.kth.iv1351.db.soundgood.model.RentalInstrument;
 import se.kth.iv1351.db.soundgood.model.RentalInstrumentDTO;
 import se.kth.iv1351.db.soundgood.model.RentalInstrumentException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Controller {
 
@@ -19,118 +17,11 @@ public class Controller {
      *
      * @throws SoundgoodDBEException If unable to connect to the database.
      */
+
     public Controller() throws SoundgoodDBEException {
         soundgoodDB = new SoundgoodDAO();
     }
 
-    /**
-     * Creates a new account for the specified account holder.
-     *
-     * @param holderName The account holder's name.
-     * @throws AccountException If unable to create account.
-
-    public void createAccount(String holderName) throws AccountException {
-        String failureMsg = "Could not create account for: " + holderName;
-
-        if (holderName == null) {
-            throw new AccountException(failureMsg);
-        }
-
-        try {
-            soundgoodDB.createAccount(new Account(holderName));
-        } catch (Exception e) {
-            throw new AccountException(failureMsg, e);
-        }
-    }
-     */
-
-    /**
-     * Lists all accounts in the whole bank.
-     *
-     * @return A list containing all accounts. The list is empty if there are no
-     *         accounts.
-     * @throws AccountException If unable to retrieve accounts.
-
-    public List<? extends AccountDTO> getAllAccounts() throws AccountException {
-        try {
-            return bankDb.findAllAccounts();
-        } catch (Exception e) {
-            throw new AccountException("Unable to list accounts.", e);
-        }
-    }
-     */
-
-    /**
-     * Lists all accounts owned by the specified account holder.
-     *
-     * @param holderName The holder who's accounts shall be listed.
-     * @return A list with all accounts owned by the specified holder. The list is
-     *         empty if the holder does not have any accounts, or if there is no
-     *         such holder.
-     * @throws AccountException If unable to retrieve the holder's accounts.
-
-    public List<? extends AccountDTO> getAccountsForHolder(String holderName) throws AccountException {
-        if (holderName == null) {
-            return new ArrayList<>();
-        }
-
-        try {
-            return bankDb.findAccountsByHolder(holderName);
-        } catch (Exception e) {
-            throw new AccountException("Could not search for account.", e);
-        }
-    }
-     */
-
-    /**
-     * Retrieves the account with the specified number.
-     *
-     * @param acctNo The number of the searched account.
-     * @return The account with the specified account number, or <code>null</code>
-     *         if there is no such account.
-     * @throws AccountException If unable to retrieve the account.
-
-    public AccountDTO getAccount(String acctNo) throws AccountException {
-        if (acctNo == null) {
-            return null;
-        }
-
-        try {
-            return bankDb.findAccountByAcctNo(acctNo, false);
-        } catch (Exception e) {
-            throw new AccountException("Could not search for account.", e);
-        }
-    }
-     */
-
-    /**
-     * Deposits the specified amount to the account with the specified account
-     * number.
-     *
-     * @param acctNo The number of the account to which to deposit.
-     * @param amt    The amount to deposit.
-     * @throws RejectedException If not allowed to deposit the specified amount.
-     * @throws AccountException  If failed to deposit.
-
-    public void deposit(String acctNo, int amt) throws RejectedException, AccountException {
-        String failureMsg = "Could not deposit to account: " + acctNo;
-
-        if (acctNo == null) {
-            throw new AccountException(failureMsg);
-        }
-
-        try {
-            Account acct = bankDb.findAccountByAcctNo(acctNo, true);
-            acct.deposit(amt);
-            bankDb.updateAccount(acct);
-        } catch (BankDBException bdbe) {
-            throw new AccountException(failureMsg, bdbe);
-        } catch (Exception e) {
-            commitOngoingTransaction(failureMsg);
-            throw e;
-        }
-    }
-     */
 
     /**
      * Withdraws the specified amount from the account with the specified account
@@ -142,53 +33,40 @@ public class Controller {
      * @throws AccountException  If failed to withdraw.
 
     public void withdraw(String acctNo, int amt) throws RejectedException, AccountException {
-        String failureMsg = "Could not withdraw from account: " + acctNo;
+    String failureMsg = "Could not withdraw from account: " + acctNo;
 
-        if (acctNo == null) {
-            throw new AccountException(failureMsg);
-        }
+    if (acctNo == null) {
+    throw new AccountException(failureMsg);
+    }
 
-        try {
-            Account acct = bankDb.findAccountByAcctNo(acctNo, true);
-            acct.withdraw(amt);
-            bankDb.updateAccount(acct);
-        } catch (BankDBException bdbe) {
-            throw new AccountException(failureMsg, bdbe);
-        } catch (Exception e) {
-            commitOngoingTransaction(failureMsg);
-            throw e;
-        }
+    try {
+    Account acct = bankDb.findAccountByAcctNo(acctNo, true);
+    acct.withdraw(amt);
+    bankDb.updateAccount(acct);
+    } catch (BankDBException bdbe) {
+    throw new AccountException(failureMsg, bdbe);
+    } catch (Exception e) {
+    commitOngoingTransaction(failureMsg);
+    throw e;
+    }
     }
 
 
     private void commitOngoingTransaction(String failureMsg) throws AccountException {
-        try {
-            bankDb.commit();
-        } catch (BankDBException bdbe) {
-            throw new AccountException(failureMsg, bdbe);
-        }
+    try {
+    bankDb.commit();
+    } catch (BankDBException bdbe) {
+    throw new AccountException(failureMsg, bdbe);
     }
-         */
+    }
+     */
+
 
     /**
-     * Deletes the account with the specified account number.
+     * Lists all the rental instruments available at Soundgood Music School
      *
-     * @param acctNo The number of the account that shall be deleted.
-     * @throws AccountException If failed to delete the specified account.
-
-    public void deleteAccount(String acctNo) throws AccountException {
-        String failureMsg = "Could not delete account: " + acctNo;
-
-        if (acctNo == null) {
-            throw new AccountException(failureMsg);
-        }
-
-        try {
-            bankDb.deleteAccount(acctNo);
-        } catch (Exception e) {
-            throw new AccountException(failureMsg, e);
-        }
-    }
+     * @return A list containing all the rental instruments at the school.
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
      */
 
 
@@ -200,6 +78,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Lists all the available rental instruments at Soundgood Music School
+     *
+     * @return A list containing only the available rental instruments
+     * at Soundgood Music School
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
+     */
+
     public List<? extends RentalInstrumentDTO> getAllAvailableRentalInstruments() throws RentalInstrumentException {
         try {
             return soundgoodDB.findAllAvailableRentalInstruments();
@@ -207,6 +93,15 @@ public class Controller {
             throw new RentalInstrumentException("Unable to retrieve all instruments", e);
         }
     }
+
+    /**
+     * Returns a list of all the rental instruments at Soundgood Music School
+     * by a specific name.
+     *
+     * @param instrumentName The name of the type of rental instruments     *
+     * @return A list containing all the rental instruments with that name
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
+     */
 
     public List<? extends RentalInstrumentDTO> getAllRentalInstrumentsByName(String instrumentName) throws RentalInstrumentException {
         try {
@@ -216,6 +111,17 @@ public class Controller {
         }
     }
 
+    /**
+     * Returns a list of all the available rental instruments at Soundgood Music
+     * School by a specific name.
+     *
+     * @param instrumentName The name of the type of rental instruments
+     * @return A list containing all the available rental instruments
+     * with that name
+     *
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
+     */
+
     public List<? extends RentalInstrumentDTO> getAllAvailableRentalInstrumentsByName(String instrumentName) throws RentalInstrumentException {
         try {
             return soundgoodDB.findAllAvailableRentalInstrumentsByName(instrumentName);
@@ -224,14 +130,23 @@ public class Controller {
         }
     }
 
+    /**
+     * Returns a specific DTO for a rental instrument containing all the relevant information
+     * for that specific rental instrument. Does not search with lock exclusive.
+     *
+     * @param rentalInstrumentId The ID for which
+     *
+     * @return RentalInstrumentDTO with the information for that instrument
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
+     */
+
     public RentalInstrumentDTO getRentalInstrument(String rentalInstrumentId) throws RentalInstrumentException {
         if (rentalInstrumentId == null) {
             return null;
         }
 
-
         try {
-            return soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId);
+            return soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, false);
 
         } catch (Exception e) {
             throw new RentalInstrumentException("Could not find rental instrument", e);
@@ -239,48 +154,72 @@ public class Controller {
 
     }
 
-    public int terminateRental(String rentalInstrumentId) throws RentalInstrumentException {
+    /**
+     * Terminates a specific rental based on the rental instrument id
+     *
+     * @param rentalInstrumentId The rental instrument ID for the rental that should be terminated
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
+     */
+
+    public void terminateRental(String rentalInstrumentId) throws RentalInstrumentException {
 
         String failMsg = "Could not terminate rental for instrument with id " + rentalInstrumentId;
 
         if (rentalInstrumentId == null) throw new RentalInstrumentException(failMsg);
 
+        int updated = 0;
+
+        RentalInstrumentDTO rentalInformation;
+
         try {
-            return soundgoodDB.terminateRental(rentalInstrumentId);
+            rentalInformation = soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, true);
+            updated = soundgoodDB.terminateRental(rentalInformation.getId());
+            updated += soundgoodDB.createRentalInstrumentRow(rentalInformation);
         } catch (Exception e) {
             throw new RentalInstrumentException("Could not terminate rental for instrument", e);
         }
 
     }
 
+    /**
+     * Rents a specific instrument to a student.
+     *
+     * @param rentalInstrumentId The ID of the rental instrument to be rented
+     * @param studentId The student ID (s_id) of the student who is renting the instrument
+     * @throws RentalInstrumentException If a problem exists with the rental instrument
+     */
 
-    public int rentInstrumentToStudent(String rentalInstrumentId, String studentId) throws RentalInstrumentException, SoundgoodDBEException {
+
+    public void rentInstrumentToStudent(String rentalInstrumentId, String studentId) throws RentalInstrumentException {
 
         String failMsg = "Could not start rental for rental instrument " + rentalInstrumentId;
 
-        if (rentalInstrumentId == null) throw new RentalInstrumentException(failMsg);
+        // What instrument to rent?
+        if (rentalInstrumentId == null) {
+            throw new RentalInstrumentException(failMsg);
+        }
 
         RentalInstrumentDTO instrumentToFind = getRentalInstrument(rentalInstrumentId);
 
         // Check Conditions
-
-        int rentedInstruments;
+        List<? extends RentalInstrumentDTO> rentedInstruments = new ArrayList<>();
 
         if (!instrumentToFind.isAvailable())
             throw new RentalInstrumentException("Instrument is unavailable");
 
         try {
-            rentedInstruments = soundgoodDB.countRentedInstruments(studentId);
+            rentedInstruments = soundgoodDB.findRentedInstrumentsByStudent(studentId);
         } catch (Exception e) {
             throw new RentalInstrumentException("Could not count number of rental instruments on student");
         }
-        if ( rentedInstruments >= 2)
+
+        if ( rentedInstruments.size() >= 2)
             throw new RentalInstrumentException("Student has rented max capacity");
 
         // Try to rent instrument
-
         try {
-            return soundgoodDB.updateRentalInformation(rentalInstrumentId, studentId);
+            RentalInstrumentDTO rentalInformation = soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, true);
+            soundgoodDB.updateRentalInformation(rentalInformation.getId(), studentId);
         } catch (Exception e) {
             throw new RentalInstrumentException("Could not find rental instrument", e);
         }

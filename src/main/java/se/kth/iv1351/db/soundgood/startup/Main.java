@@ -15,9 +15,9 @@ public class Main {
     public static void main(String[] args) {
         try {
             new BlockingInterpreter(new Controller()).handleCmds();
-        } catch (SoundgoodDBEException e) {
-            System.out.println("Could not connect to Soundgood Music School.");
-            e.printStackTrace();
+        } catch (SoundgoodDBEException bdbe) {
+            System.out.println("Could not connect to Bank db.");
+            bdbe.printStackTrace();
         }
     }
 }

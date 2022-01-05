@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-
 import se.kth.iv1351.db.soundgood.controller.Controller;
 import se.kth.iv1351.db.soundgood.model.RentalInstrumentDTO;
 
@@ -78,8 +77,8 @@ public class BlockingInterpreter {
                         for (RentalInstrumentDTO instrument : instrumentsToPrint)
                             System.out.println(instrument);
 
-                        instrumentsToPrint = null;
-                        instrumentName = "";
+                        resetObject(instrumentsToPrint);
+                        resetString(instrumentName);
 
                         break;
 
@@ -99,8 +98,8 @@ public class BlockingInterpreter {
                         for (RentalInstrumentDTO instrument : instrumentsToPrint)
                             System.out.println(instrument);
 
-                        instrumentsToPrint = null;
-                        instrumentName = "";
+                        resetObject(instrumentsToPrint);
+                        resetString(instrumentName);
 
                         break;
 
@@ -112,16 +111,14 @@ public class BlockingInterpreter {
                         System.out.println("Trying to rent: ");
                         printInstrument(controller.getRentalInstrument(instrumentId));
 
-                        System.out.println("Updated " + controller.rentInstrumentToStudent(instrumentId, studentId)
-                                + " row in the database");
+                        controller.rentInstrumentToStudent(instrumentId, studentId);
 
                         System.out.println("New status: ");
                         printInstrument(controller.getRentalInstrument(instrumentId));
 
-                        instrumentId = "";
-                        studentId = "";
+                        resetStrings(instrumentId, studentId);
 
-                    break;
+                        break;
 
                     case FIND:
 
@@ -130,8 +127,8 @@ public class BlockingInterpreter {
 
                         printInstrument(instrumentToFind);
 
-                        instrumentToFind = null;
-                        instrumentId = "";
+                        resetObject(instrumentToFind);
+                        resetString(instrumentId);
 
                         break;
 
@@ -142,8 +139,7 @@ public class BlockingInterpreter {
                         System.out.println("Trying to terminate rental: ");
                         printInstrument(controller.getRentalInstrument(instrumentId));
 
-                        System.out.println("Updated " + controller.terminateRental(instrumentId)
-                                + " row in the database");
+                        controller.terminateRental(instrumentId);
 
                         System.out.println("New status: ");
                         printInstrument(controller.getRentalInstrument(instrumentId));
@@ -163,6 +159,23 @@ public class BlockingInterpreter {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void resetObject(List<? extends RentalInstrumentDTO> list) {
+        list = null;
+    }
+
+    private void resetObject(RentalInstrumentDTO dto) {
+        dto = null;
+    }
+
+    private void resetStrings(String firstString, String secondString) {
+        firstString = "";
+        secondString = "";
+    }
+
+    private void resetString(String string) {
+        string = "";
     }
 
     private void printInstrument(RentalInstrumentDTO instrumentToFind) {

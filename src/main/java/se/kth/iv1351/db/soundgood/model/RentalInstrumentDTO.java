@@ -1,7 +1,5 @@
 package se.kth.iv1351.db.soundgood.model;
 
-import java.sql.Timestamp;
-
 public interface RentalInstrumentDTO {
 
     /**
@@ -20,5 +18,14 @@ public interface RentalInstrumentDTO {
      */
 
     public boolean isAvailable();
+
+    String getCondition();
+
+    String getStudent_id();
+
+    double getMonthlyCost();
+
+    int getInstrument_id();
+
 
 }

@@ -12,9 +12,10 @@ public class RentalInstrument implements RentalInstrumentDTO {
     private String condition;
     private Timestamp returnDate;
     private String student_id;
+    private int instrument_id;
 
 
-    public RentalInstrument(String id, String name, String type, boolean isAvailable, double monthlyCost, String condition, Timestamp returnDate, String student_id) {
+    public RentalInstrument(String id, String name, String type, boolean isAvailable, double monthlyCost, String condition, int instrument_id, Timestamp returnDate, String student_id) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -23,6 +24,7 @@ public class RentalInstrument implements RentalInstrumentDTO {
         this.condition = condition;
         this.returnDate = returnDate;
         this.student_id = student_id;
+        this.instrument_id = instrument_id;
     }
 
 
@@ -54,16 +56,20 @@ public class RentalInstrument implements RentalInstrumentDTO {
         return name;
     }
 
+    public int getInstrument_id() {return instrument_id;}
+
     public String toString() {
 
         StringBuilder sb = new StringBuilder("");
+
+        if (!isAvailable()) sb.append("[NOT AVAILABLE] ");
 
         sb.append("[" + getId() + "] "
                 + getName() + ", "
                 + getMonthlyCost() + "kr per month, "
                 + getCondition());
 
-        if (getReturnDate() != null) sb.append(" [" + getReturnDate() + "]");
+        if (getReturnDate() != null) sb.append(" [RETURN DATE: " + getReturnDate() + "]");
 
         return sb.toString();
     }
