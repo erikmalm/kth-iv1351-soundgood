@@ -40,6 +40,11 @@ public class SoundgoodDAO {
 
     private Connection connection;
 
+    /**
+     * Constructs a new DAO object connected to the Soundgood Music School database
+     * @throws SoundgoodDBEException
+     */
+
     public SoundgoodDAO() throws SoundgoodDBEException {
         try {
             connectToSoundgoodDB();
@@ -50,11 +55,11 @@ public class SoundgoodDAO {
         }
     }
 
-    private void connectToSoundgoodDB() throws ClassNotFoundException, SQLException {
-
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgood","postgres", "VgS4HN");
-        connection.setAutoCommit(false);
-    }
+    /**
+     * SQL queries for the database connection
+     *
+     * @throws SQLException
+     */
 
     private void prepareStatements() throws SQLException {
 
@@ -64,7 +69,8 @@ public class SoundgoodDAO {
                         + " LEFT JOIN " + INSTRUMENT_TABLE_NAME
                         + " ON " + RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME + " = " + INSTRUMENT_TABLE_NAME + "." + ID_COL_NAME
                         + " WHERE " + TERMINATED_COL_NAME + " IS false "
-                        + " ORDER BY " + NAME_COL_NAME + ", " + RENTAL_ID_COL_NAME + " asc");
+                        + " ORDER BY " + NAME_COL_NAME + ", " + RENTAL_ID_COL_NAME + " asc"
+        );
 
         findAllInstrumentsByName = connection.prepareStatement(
                 "SELECT * FROM "
@@ -73,7 +79,8 @@ public class SoundgoodDAO {
                         + " ON " + RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME + " = " + INSTRUMENT_TABLE_NAME + "." + ID_COL_NAME
                         + " WHERE " + NAME_COL_NAME + " = ?"
                         + " AND " + TERMINATED_COL_NAME + " IS false "
-                        + " ORDER BY " + RENTAL_ID_COL_NAME + " asc");
+                        + " ORDER BY " + RENTAL_ID_COL_NAME + " asc"
+        );
 
         findAllAvailableRentalInstruments = connection.prepareStatement(
                 "SELECT * FROM "
@@ -82,7 +89,8 @@ public class SoundgoodDAO {
                         + " ON " + RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME + " = " + INSTRUMENT_TABLE_NAME + "." + ID_COL_NAME
                         + " WHERE " + IS_AVAILABLE_COL_NAME + " IS true"
                         + " AND " + TERMINATED_COL_NAME + " IS false "
-                        + " ORDER BY " + NAME_COL_NAME + ", " + RENTAL_ID_COL_NAME + " asc");
+                        + " ORDER BY " + NAME_COL_NAME + ", " + RENTAL_ID_COL_NAME + " asc"
+        );
 
         findAllAvailableRentalInstrumentsByName = connection.prepareStatement(
                 "SELECT *"
@@ -92,7 +100,8 @@ public class SoundgoodDAO {
                         + " WHERE " + NAME_COL_NAME + " = ? "
                         + " AND " + IS_AVAILABLE_COL_NAME + " IS true"
                         + " AND " + TERMINATED_COL_NAME + " IS false "
-                        + " ORDER BY " + RENTAL_ID_COL_NAME + " ASC ");
+                        + " ORDER BY " + RENTAL_ID_COL_NAME + " ASC "
+        );
 
         findSpecificRentalInstrumentById = connection.prepareStatement(
                 "SELECT *"
@@ -100,7 +109,8 @@ public class SoundgoodDAO {
                         + " LEFT JOIN " + INSTRUMENT_TABLE_NAME
                         + " ON " + RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME + " = " + INSTRUMENT_TABLE_NAME + "." + ID_COL_NAME
                         + " WHERE " + RENTAL_ID_COL_NAME + " = ? "
-                        + " AND " + TERMINATED_COL_NAME + " IS false ");
+                        + " AND " + TERMINATED_COL_NAME + " IS false "
+        );
 
         findSpecificRentalInstrumentByIdLockingForUpdate = connection.prepareStatement(
                 "SELECT *"
@@ -109,7 +119,8 @@ public class SoundgoodDAO {
                         + " ON " + RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME + " = " + INSTRUMENT_TABLE_NAME + "." + ID_COL_NAME
                         + " WHERE " + RENTAL_ID_COL_NAME + " = ? "
                         + " AND " + TERMINATED_COL_NAME + " IS false "
-                        + " FOR UPDATE ");
+                        + " FOR UPDATE "
+        );
 
         updateRentalInformation = connection.prepareStatement(
                 "UPDATE "
@@ -118,7 +129,8 @@ public class SoundgoodDAO {
                         + ", " + IS_AVAILABLE_COL_NAME + " = 'false' "
                         + ", " + RETURN_DATE_COL_NAME + "= ? "
                         + " WHERE " + RENTAL_ID_COL_NAME + " = ? "
-                        + " AND " + TERMINATED_COL_NAME + " IS false ");
+                        + " AND " + TERMINATED_COL_NAME + " IS false "
+        );
 
         terminateRental = connection.prepareStatement(
                 "UPDATE "
@@ -126,7 +138,8 @@ public class SoundgoodDAO {
                         + " SET " + RETURN_DATE_COL_NAME + " = ? "
                         + ", " + TERMINATED_COL_NAME + " = true"
                         + " WHERE " + RENTAL_ID_COL_NAME + " = ? "
-                        + " AND " + TERMINATED_COL_NAME + " IS false ");
+                        + " AND " + TERMINATED_COL_NAME + " IS false "
+        );
 
         createRentalRow = connection.prepareStatement(
                 "INSERT INTO "
@@ -140,13 +153,13 @@ public class SoundgoodDAO {
                         + ", " + MONTHLY_COST_COL_NAME
                         + ", " + TERMINATED_COL_NAME + " )"
                         + " VALUES "
-                        + "( " + " ? "  // rental ID
+                        + "( " + " ? "  // 1. rental ID
                         + ", 'yes '"
-                        + ", ? "        // condition
-                        + ", ? "        // instrument id
+                        + ", ? "        // 2. condition
+                        + ", ? "        // 3. instrument id
                         + ", NULL "
                         + ", NULL "
-                        + ", ? "        // monthly cost
+                        + ", ? "        // 4. monthly cost
                         + ", 'no' )"
         );
 
@@ -154,7 +167,8 @@ public class SoundgoodDAO {
                 "SELECT COUNT(" + STUDENT_ID_COL_NAME + ") as "
                         + NUMBER_OF_INSTRUMENTS_COL_NAME
                         + " FROM " + RENTAL_INSTRUMENT_TABLE_NAME
-                        + " WHERE " + STUDENT_ID_COL_NAME + " = ? ");
+                        + " WHERE " + STUDENT_ID_COL_NAME + " = ? "
+        );
 
         findRentedInstrumentsByStudent = connection.prepareStatement(
                 "SELECT *"
@@ -162,41 +176,23 @@ public class SoundgoodDAO {
                         + " LEFT JOIN " + INSTRUMENT_TABLE_NAME
                         + " ON " + RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME + " = " + INSTRUMENT_TABLE_NAME + "." + ID_COL_NAME
                         + " WHERE " + STUDENT_ID_COL_NAME + " = ?"
-                        + " AND " + TERMINATED_COL_NAME + " IS false ");
-
+                        + " AND " + TERMINATED_COL_NAME + " IS false "
+        );
     }
 
-    private void handleException(String failureMsg, Exception cause) throws SoundgoodDBEException {
-        String completeFailureMsg = failureMsg;
-        try {
-            connection.rollback();
-        } catch (SQLException rollbackExc) {
-            completeFailureMsg = completeFailureMsg +
-                    ". Also failed to rollback transaction because of: " + rollbackExc.getMessage();
-        }
-
-        if (cause != null) {
-            throw new SoundgoodDBEException(failureMsg, cause);
-        } else {
-            throw new SoundgoodDBEException(failureMsg);
-        }
-    }
-
-    private void closeResultSet(String failureMsg, ResultSet result) throws SoundgoodDBEException {
-        try {
-            result.close();
-        } catch (Exception e) {
-            throw new SoundgoodDBEException(failureMsg + " Could not close result set.", e);
-        }
-    }
+    /**
+     * Finds all the rental instruments in the database
+     *
+     * @return A list of all rental instruments in the database
+     * @throws SoundgoodDBEException
+     */
 
     public List<RentalInstrument> findAllRentalInstruments() throws SoundgoodDBEException {
 
+        String failureMessage = "Falied to get all rental instruments";
+        List<RentalInstrument> instruments = new ArrayList<>();
         ResultSet result = null;
 
-        String failureMessage = "Falied to get all rental instruments";
-
-        List<RentalInstrument> instruments = new ArrayList<>();
         try {
             result = findAllInstruments.executeQuery();
             instruments = new ArrayList<RentalInstrument>();
@@ -224,24 +220,26 @@ public class SoundgoodDAO {
         }
 
         return instruments;
-
     }
+
+    /**
+     * Finds all rental instruments in the database of a specific type (f.e. guitar, cello, etc.)
+     *
+     * @param instrumentName The name/type of the rental instruments to list
+     * @return A list of all the rental instruments of a specific type
+     * @throws SoundgoodDBEException
+     */
 
     public List<RentalInstrument> findAllRentalInstrumentsByName(String instrumentName) throws SoundgoodDBEException {
 
-        PreparedStatement stmtToExecute;
 
         String failureMessage = "Falied to get all rental instruments by specific name";
-
-        stmtToExecute = findAllInstrumentsByName;
-
+        List<RentalInstrument> instruments = new ArrayList<>();
         ResultSet result = null;
 
-        List<RentalInstrument> instruments = new ArrayList<>();
-
         try {
-            stmtToExecute.setString(1, instrumentName);
-            result = stmtToExecute.executeQuery();
+            findAllInstrumentsByName.setString(1, instrumentName);
+            result = findAllInstrumentsByName.executeQuery();
             instruments = new ArrayList<RentalInstrument>();
 
             while (result.next()) {
@@ -267,14 +265,21 @@ public class SoundgoodDAO {
         }
 
         return instruments;
-
     }
+
+    /**
+     * Finds all available rental instruments in the database, that are not rented or
+     * otherwise unavailable (f.e. sent to maintenance).
+     *
+     * @return A list of all available rental instruments in the database
+     * @throws SoundgoodDBEException
+     */
 
     public List<? extends RentalInstrumentDTO> findAllAvailableRentalInstruments() throws SoundgoodDBEException {
 
         String failureMessage = "Falied to get all rental instruments";
-        ResultSet result = null;
         List<RentalInstrument> instruments = new ArrayList<>();
+        ResultSet result = null;
 
         try {
 
@@ -307,6 +312,16 @@ public class SoundgoodDAO {
         return instruments;
 
     }
+
+    /**
+     * Finds all available rental instruments in the database of a specific type (f.e. guitar, cello, etc.)
+     * These instruments are available, meaning that they are not rented, sent to maintenance or
+     * otherwise unavailable.
+     *
+     * @param instrumentName The type of instrument to search for
+     * @return A list of all available instruments of specified type
+     * @throws SoundgoodDBEException
+     */
 
     public List<? extends RentalInstrumentDTO> findAllAvailableRentalInstrumentsByName(String instrumentName) throws SoundgoodDBEException {
 
@@ -343,6 +358,20 @@ public class SoundgoodDAO {
         return instruments;
 
     }
+
+    /**
+     * Finds a specific instrument by it's rental instrument ID
+     *
+     * @param rentalInstrumentId The rental instrument ID to search for
+     * @param lockExclusive If true, it will not be possible to perform UPDATE
+     *                      or DELETE statements on the selected row in the
+     *                      current transaction. Also, the database operation will not
+     *                      be committed when this method returns. If false, no
+     *                      exclusive locks will be created, and the transaction will
+     *                      be committed when this method returns.
+     * @return Rental Instrument DTO based on its specific rental instrument ID
+     * @throws SoundgoodDBEException
+     */
 
 
     public RentalInstrumentDTO findSpecificRentalInstrumentById(String rentalInstrumentId, boolean lockExclusive)
@@ -538,6 +567,35 @@ public class SoundgoodDAO {
         } catch (SQLException e) {
             handleException("Failed to commit", e);
         }
+    }
+
+    private void handleException(String failureMsg, Exception cause) throws SoundgoodDBEException {
+        String completeFailureMsg = failureMsg;
+        try {
+            connection.rollback();
+        } catch (SQLException rollbackExc) {
+            completeFailureMsg = completeFailureMsg +
+                    ". Also failed to rollback transaction because of: " + rollbackExc.getMessage();
+        }
+
+        if (cause != null) {
+            throw new SoundgoodDBEException(failureMsg, cause);
+        } else {
+            throw new SoundgoodDBEException(failureMsg);
+        }
+    }
+
+    private void closeResultSet(String failureMsg, ResultSet result) throws SoundgoodDBEException {
+        try {
+            result.close();
+        } catch (Exception e) {
+            throw new SoundgoodDBEException(failureMsg + " Could not close result set.", e);
+        }
+    }
+
+    private void connectToSoundgoodDB() throws ClassNotFoundException, SQLException {
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgood","postgres", "VgS4HN");
+        connection.setAutoCommit(false);
     }
 
     private Timestamp getCurrentDate() {
