@@ -25,6 +25,7 @@ public class SoundgoodDAO {
     private static final String RENTAL_INSTRUMENT_INSTRUMENT_FK_COL_NAME = "rental_instrument.instrument_id";
     private static final String NUMBER_OF_INSTRUMENTS_COL_NAME = "numberOfInstruments";
     private static final String TERMINATED_COL_NAME = "terminated";
+    private static final String BRAND_COL_NAME = "brand";
 
     private PreparedStatement findAllInstruments;
     private PreparedStatement findAllAvailableRentalInstruments;
@@ -143,6 +144,7 @@ public class SoundgoodDAO {
                 "INSERT INTO "
                         + RENTAL_INSTRUMENT_TABLE_NAME
                         + "( " + RENTAL_ID_COL_NAME
+                        + ", " + BRAND_COL_NAME
                         + ", " + IS_AVAILABLE_COL_NAME
                         + ", " + CONDITION_COL_NAME
                         + ", " + INSTRUMENT_ID_COL_NAME
@@ -152,12 +154,13 @@ public class SoundgoodDAO {
                         + ", " + TERMINATED_COL_NAME + " )"
                         + " VALUES "
                         + "( " + " ? "  // 1. rental ID
+                        + ", ? "        // 2. brand
                         + ", 'yes '"
-                        + ", ? "        // 2. condition
-                        + ", ? "        // 3. instrument id
+                        + ", ? "        // 3. condition
+                        + ", ? "        // 4. instrument id
                         + ", NULL "
                         + ", NULL "
-                        + ", ? "        // 4. monthly cost
+                        + ", ? "        // 5. monthly cost
                         + ", 'no' )"
         );
 
@@ -198,6 +201,7 @@ public class SoundgoodDAO {
 
                 instruments.add(new RentalInstrument(
                         result.getString(RENTAL_ID_COL_NAME),
+                        result.getString(BRAND_COL_NAME),
                         result.getString(NAME_COL_NAME),
                         result.getString(TYPE_COL_NAME),
                         result.getBoolean(IS_AVAILABLE_COL_NAME),
@@ -241,6 +245,7 @@ public class SoundgoodDAO {
 
                 instruments.add(new RentalInstrument(
                         result.getString(RENTAL_ID_COL_NAME),
+                        result.getString(BRAND_COL_NAME),
                         result.getString(NAME_COL_NAME),
                         result.getString(TYPE_COL_NAME),
                         result.getBoolean(IS_AVAILABLE_COL_NAME),
@@ -284,6 +289,7 @@ public class SoundgoodDAO {
 
                 instruments.add(new RentalInstrument(
                         result.getString(RENTAL_ID_COL_NAME),
+                        result.getString(BRAND_COL_NAME),
                         result.getString(NAME_COL_NAME),
                         result.getString(TYPE_COL_NAME),
                         result.getBoolean(IS_AVAILABLE_COL_NAME),
@@ -330,6 +336,7 @@ public class SoundgoodDAO {
 
                 instruments.add(new RentalInstrument(
                         result.getString(RENTAL_ID_COL_NAME),
+                        result.getString(BRAND_COL_NAME),
                         result.getString(NAME_COL_NAME),
                         result.getString(TYPE_COL_NAME),
                         result.getBoolean(IS_AVAILABLE_COL_NAME),
@@ -387,6 +394,7 @@ public class SoundgoodDAO {
             if (result.next()) {
                 return new RentalInstrument(
                         result.getString(RENTAL_ID_COL_NAME),
+                        result.getString(BRAND_COL_NAME),
                         result.getString(NAME_COL_NAME),
                         result.getString(TYPE_COL_NAME),
                         result.getBoolean(IS_AVAILABLE_COL_NAME),
@@ -495,6 +503,7 @@ public class SoundgoodDAO {
             while (result.next()) {
                 instruments.add( new RentalInstrument(
                         result.getString(RENTAL_ID_COL_NAME),
+                        result.getString(BRAND_COL_NAME),
                         result.getString(NAME_COL_NAME),
                         result.getString(TYPE_COL_NAME),
                         result.getBoolean(IS_AVAILABLE_COL_NAME),
@@ -534,9 +543,10 @@ public class SoundgoodDAO {
         try {
 
             createRentalRow.setString(1, rentalInformation.getId());
-            createRentalRow.setString(2, rentalInformation.getCondition());
-            createRentalRow.setInt(3, rentalInformation.getInstrument_id());
-            createRentalRow.setDouble(4, rentalInformation.getMonthlyCost());
+            createRentalRow.setString(2, rentalInformation.getBrand());
+            createRentalRow.setString(3, rentalInformation.getCondition());
+            createRentalRow.setInt(4, rentalInformation.getInstrument_id());
+            createRentalRow.setDouble(5, rentalInformation.getMonthlyCost());
 
             updatedRows = createRentalRow.executeUpdate();
 

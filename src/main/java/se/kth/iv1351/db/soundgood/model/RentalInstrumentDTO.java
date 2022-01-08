@@ -27,5 +27,7 @@ public interface RentalInstrumentDTO {
 
     int getInstrument_id();
 
+    String getBrand();
+
 
 }
