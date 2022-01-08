@@ -449,7 +449,7 @@ public class SoundgoodDAO {
      * @param rentalInstrumentId The id of the rental instrument to terminate rental
      * @throws SoundgoodDBEException If unable to connect to database
      */
-    public void terminateRental(String rentalInstrumentId) throws SoundgoodDBEException {
+    public void terminateRental(String rentalInstrumentId, boolean shouldCommit) throws SoundgoodDBEException {
 
         String failureMessage = "Could not terminate rental for instrument with id " + rentalInstrumentId;
 
@@ -462,7 +462,7 @@ public class SoundgoodDAO {
 
             updatedRows = terminateRental.executeUpdate();
 
-            // connection.commit();
+            if (shouldCommit) connection.commit();
         }
         catch (SQLException sqle) {
             handleException(failureMessage, sqle);

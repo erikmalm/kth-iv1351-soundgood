@@ -127,7 +127,7 @@ public class Controller {
 
         try {
             rentalInformation = soundgoodDB.findSpecificRentalInstrumentById(rentalInstrumentId, true);
-            soundgoodDB.terminateRental(rentalInformation.getId());
+            soundgoodDB.terminateRental(rentalInformation.getId(), false);
             soundgoodDB.createRentalInstrumentRow(rentalInformation);
         } catch (SoundgoodDBEException sdbe) {
             throw new RentalInstrumentException(failMsg, sdbe);
