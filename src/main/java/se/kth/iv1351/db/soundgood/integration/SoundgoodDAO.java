@@ -163,13 +163,6 @@ public class SoundgoodDAO {
                         + ", 'no' )"
         );
 
-        countRentedInstruments = connection.prepareStatement(
-                "SELECT COUNT(" + STUDENT_ID_COL_NAME + ") as "
-                        + NUMBER_OF_INSTRUMENTS_COL_NAME
-                        + " FROM " + RENTAL_INSTRUMENT_TABLE_NAME
-                        + " WHERE " + STUDENT_ID_COL_NAME + " = ? "
-        );
-
         findRentedInstrumentsByStudent = connection.prepareStatement(
                 "SELECT *"
                         + " FROM " + RENTAL_INSTRUMENT_TABLE_NAME
