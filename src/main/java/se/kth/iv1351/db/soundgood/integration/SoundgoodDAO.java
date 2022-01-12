@@ -34,7 +34,6 @@ public class SoundgoodDAO {
     private PreparedStatement findSpecificRentalInstrumentById;
     private PreparedStatement findSpecificRentalInstrumentByIdLockingForUpdate;
     private PreparedStatement updateRentalInformation;
-    private PreparedStatement countRentedInstruments;
     private PreparedStatement terminateRental;
     private PreparedStatement findRentedInstrumentsByStudent;
     private PreparedStatement createRentalRow;
